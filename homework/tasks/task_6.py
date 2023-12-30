@@ -18,6 +18,9 @@ class BackgroundCoroutinesWatcher:
         # Здесь необходимо реализовать логику планирования корутины.
         #
         # YOUR CODE GOES HERE
+        new_task = asyncio.create_task(coro)
+        self._running_tasks.add(new_task)
+        new_task.add_done_callback(self._remove_from_running_task)
 
     def _remove_from_running_task(self, task: asyncio.Task) -> None:
         self._running_tasks.remove(task)
@@ -26,6 +29,8 @@ class BackgroundCoroutinesWatcher:
         # Здесь необходимо реализовать отмену корутин, которые ещё не успели завершиться.
         #
         # YOUR CODE GOES HERE
+        for task in self._running_tasks:
+            task.cancel()
 
 
 class FastHandlerWithLongBackgroundTask:

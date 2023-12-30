@@ -1,5 +1,6 @@
 from asyncio import Task
 from typing import Callable, Coroutine, Any
+import asyncio
 
 
 async def await_my_func(f: Callable[..., Coroutine] | Task | Coroutine) -> Any:
@@ -8,9 +9,14 @@ async def await_my_func(f: Callable[..., Coroutine] | Task | Coroutine) -> Any:
 
     if isinstance(f, Callable):
         # YOUR CODE GOES HERE
+        result = await f()
+        return result
     elif isinstance(f, Task):
         # YOUR CODE GOES HERE
+        result = await f
+        return result
     elif isinstance(f, Coroutine):
-        # YOUR CODE GOES HERE
+       result = await f
+       return result
     else:
         raise ValueError('invalid argument')
